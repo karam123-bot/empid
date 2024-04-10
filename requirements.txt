@@ -1,4 +1,4 @@
-Django=4.0.3
+--Django=4.0.3
 Pillow
 django-qr-code
 Python >= 3.8
