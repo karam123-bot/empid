@@ -1,13 +1,13 @@
 {
-"builds": [{
-    "src": "django_employee_qr/wsgi.py",
-    "use": "@vercel/python",
-    "config": { "maxLambdaSize": "15mb", "runtime": "python3.11.5" }
-}],
-"routes": [
-    {
-        "src": "/(.*)",
-        "dest": "django_employee_qr/wsgi.py"
-    }
-]
+    "builds": [{
+        "src": "django_employee_qr/wsgi.py",
+        "use": "@vercel/python",
+        "config": { "maxLambdaSize": "15mb", "runtime": "python3.11" }
+    }],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "django_employee_qr/wsgi.py"
+        }
+    ]
 }
