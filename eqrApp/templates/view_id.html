@@ -1,0 +1,293 @@
+{% load qr_code %}
+<style>
+    #uni_modal .modal-footer {
+        display: none
+    }
+    
+    #uni_modal .modal-sub-footer {
+        display: flex
+    }
+    
+    .id-card {
+        width: 3in;
+        height: 87%;
+        border: 2px solid var(--bs-dark);
+        padding: 2rem 1.5rem;
+    }
+    
+    #card-qr,
+    #card-avatar {
+        width: 4rem;
+        height: 4rem;
+        margin-top:-6px;
+    }
+
+    .container {
+        display: flex;
+        align-items: center;
+    }
+    
+    .text-container {
+        margin-left: 10px; /* Adjust margin as needed */
+    }
+    .container {
+        display: grid;
+        {% comment %} grid-template-columns: auto 1fr; {% endcomment %}
+        align-items: center;
+        column-gap: 10px; /* Adjust gap as needed */
+    }
+    @media print {
+        .container {
+            display: flex !important;
+            align-items: flex-end !important;
+            margin-top:-20px;
+        }
+
+        .text-container {
+            margin-left: 10px; /* Adjust margin as needed */
+            
+        }
+    }
+    p.website-url {
+        font-size: 10px;
+        margin-top: 3px;
+        
+    }
+     .head-text.text-center.fw-bolder {
+        font-size: 7px !important;
+    }
+    .my-4 {
+        margin-top: 0.5rem!important;
+        margin-bottom: 0.5rem!important;
+    }
+
+    dl {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-top:7px;
+    }
+    dt {
+        flex-basis: 30%; /* Adjust this value according to your layout */
+        flex-shrink: 0;
+        margin-right: 10px; /* Adjust spacing as needed */
+        text-align: left;
+        font-size:9px;
+    }
+    dd {
+        flex-basis: 28%; /* Adjust this value according to your layout */
+        flex-shrink: 0;
+        margin-left: 10px; /* Adjust spacing as needed */
+        text-align: right;
+        font-size:10px;
+    }
+
+    {% comment %} .container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    } {% endcomment %}
+    .left {
+        flex: 1;
+        text-align: right;
+        padding-right: 10px;
+    }
+    .middle {
+        flex: 1;
+        text-align: left;
+        padding-left: 10px;
+        margin-left:-30px;
+    }
+    .right {
+        flex: 1;
+        text-align: right;
+    }
+    .right img {
+        max-width: 85px; /* Adjust the width of the image as needed */
+        height: autopx;
+    }
+    #blood-group{
+        margin-top:-7px !important;
+    }
+</style>
+<div class="container-fluid" id="id-card">
+    <div class="d-flex mb-3">
+        <div class="px-2">
+            <div class="id-card">
+                <div class="d-flex w-100 justify-content-center my-4">
+                    <img src="/media/employee-avatars/logos.png" id="card-avat" class="img-thumbnail" alt="" style="height: 61px;width: 72px;border:none;margin-top:-33px">
+                </div>
+          
+                <div class="d-flex w-100 justify-content-center my-4">
+                    <img src="{% if employee.avatar %}{{employee.avatar.url}}{% endif %}" id="card-avatar" class="img-thumbnail" alt="">
+                </div>
+                <div class="lh-1">
+                    <div class="text-center fw-bold">{{ employee.name }} {{employee.employee_code}}</div>
+                    {% comment %} <div class="text-center fw-light text-sm">{{ employee.department }}</div> {% endcomment %}
+                </div>
+                {% comment %} <div class="container"> {% endcomment %}
+                    <dl>
+                        <div class="left">
+                            <dt>Position:</dt>
+                            <dt>Blood G:</dt>
+                            <dt>Contact:</dt>        
+                            
+                        </div>
+                        <div class="middle">
+                            <dd>{{employee.position}}</dd>
+                            <dd id="blood-group">A+</dd>
+                            <dd id="blood-group">{{employee.contact}}</dd>
+                        </div>
+                    <div class="right">
+                            {% comment %} <dd><img src="{% qr_url_from_text employee.employee_code size=5 version=1 image_format='png' %}" id="card-qr" alt=""></dd> {% endcomment %}
+                            <dd><img src="{% qr_url_from_text employee.employee_code  size=5 version=1 image_format='png' %}" id="card-qr" alt=""></dd>
+                        </div> 
+                    </dl>
+                  
+                {% comment %} </div> {% endcomment %}
+                {% comment %} <div class="text-container">
+                    <div class="head-text text-center fw-bolder" style="font-size: 9px">{{company_name_english}}</div>
+                </div> {% endcomment %}
+                <div class="lh-1 text-center">
+                    {% comment %} <img src="{% qr_url_from_text employee.employee_code size=5 version=1 image_format='png' %}" id="card-qr" alt=""> {% endcomment %}
+                    <p class="website-url">www.unidesign-jewel.com</p>
+                </div>
+            </div>
+        </div>
+        {% comment %} <div class="px-2">
+            <div class="id-card">
+                <div class="lh-1">
+                    <dl>
+                        <dt>Employee Code</dt>
+                        <dd>{{employee.employee_code}}</dd>
+                        <dt>Department</dt>
+                        <dd>{{employee.department}}</dd>
+                        <dt>Position</dt>
+                        <dd>{{employee.position}}</dd>
+                        <dt>Gender</dt>
+                        <dd>{{employee.gender}}</dd>
+                        <dt>Date of Birth</dt>
+                        <dd>{{employee.dob|date:'M d, Y'}}</dd>
+                        <dt>Contact #</dt>
+                        <dd>{{employee.contact}}</dd>
+                        <dt>Email</dt>
+                        <dd>{{employee.email}}</dd>
+                        <dt>Address</dt>
+                        <dd><small>{{employee.address}}</small></dd>
+                    </dl>
+                </div>
+            </div>
+        </div>  {% endcomment %}
+    </div>
+</div>
+<noscript id="qr-style">
+<style>
+    .container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    .left {
+        flex: 1;
+        text-align: left;
+        padding-right: 10px;
+        margin-top:8px;
+    }
+    .middle {
+        flex: 1;
+        text-align: left;
+        padding-left: 10px;
+        margin-left:-65px !important;
+        margin-top:10px;
+    }
+    .right {
+        flex: 1;
+        text-align: right;
+        margin-right:-10px;
+    }
+    .right img {
+        max-width: 100px; /* Adjust the width of the image as needed */
+        height: auto;
+    }
+    * {
+        font-size: 12px;
+    }
+    * small {
+        font-size: 10px;
+    }
+    .id-card {
+        width: 2.30in;
+        height: 3.35in;
+        border: 2px solid var(--bs-dark);
+        padding: 2rem 1.3rem;
+        border-radius: 5px;
+       
+    }
+    #card-avatar {
+        width: 1in;
+        height: 1in;
+    }
+    #card-qr {
+        width: .7in;
+        height: .7in;
+        {% comment %} margin-top:-76px; {% endcomment %}
+    }
+    .my-4 {
+        margin-top: 35px !important;
+        margin-bottom: 0.5rem!important;
+    }
+    @media print {
+        .container {
+            display: flex !important;
+            align-items: flex-end !important;       
+        }
+    }
+    dl {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    dt {
+        flex-basis: 30%; /* Adjust this value according to your layout */
+        flex-shrink: 0;
+        margin-right: 10px; /* Adjust spacing as needed */
+        text-align: left;
+        font-size:9px;
+    }
+    dd {
+        flex-basis: 28%; /* Adjust this value according to your layout */
+        flex-shrink: 0;
+        margin-left: 10px; /* Adjust spacing as needed */
+        text-align: left;
+        font-size:8px;
+    }
+    .text-center{
+        font-size:16px;
+
+    }
+    #blood-group{
+        margin-top:-5px !important;
+    }
+
+    .text-container {
+        margin-top: -10px;
+    }
+    #card-qr,
+    #card-avatar {
+      
+        margin-top:-4px;
+    }
+    img#card-avat {
+        margin-bottom: -20px;
+    }
+    p.website-url {
+        font-size: 9px;
+        margin-top: -10px;
+    }
+</style>
+</noscript>
+<script>
+    $(function() {
+
+    })
+</script>

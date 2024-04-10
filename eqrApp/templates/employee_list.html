@@ -1,0 +1,119 @@
+{% extends "base.html" %} {% load humanize %} {% load customfilter %} {% block pageContent %}
+
+<!--Section: Content-->
+<h3 class="fw-bolder">{{page_title}}
+<div class="text-end mb-2">
+    <a href="{% url 'add-employee' %}" class="btn btn-primary btn-sm rounded-0 bg-gradient"><i class="fa fa-plus"></i> Add New Employee</a>
+    <a href="{% url 'add-employee-excel' %}" class="btn btn-primary btn-sm rounded-0 bg-gradient"><i class="fa fa-plus"></i> Upload Employee Excel</a>
+</div>
+</h3>
+<hr>
+<section class="py-3">
+    <div class="container">
+        
+        <table id="example" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>User Id</th>
+                    <th>Name</th>
+                    <th>Blood Group</th>
+                    <th>DOB</th>
+                    <th>Dept./Pos.</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                {% for employee in employees %}
+                <tr>
+                    <td class="text-center">{{forloop.counter}}</td>
+                    <td class="">{{employee.date_created|date:"M d, Y H:i" }}</td>
+                    <td class="">{{employee.employee_code}}</td>
+                    <td class="">{{employee}}</td>
+                    <td class="">{{employee.address}}</td>
+                    <td class="">{{employee.dob}}</td>
+                    <td class="">
+                        <div class="lh-1">
+                            <div>{{employee.department}}</div>
+                            <div>{{employee.position}}</div>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="dropdown">
+                            <button class="btn btn-light border bg-gradient btn-sm rounded-0 dropdown-toggle" type="button" id="employeeDD{{employee.pk}}" data-bs-toggle="dropdown" aria-expanded="false">
+                              Action
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="employeeDD{{employee.pk}}">
+                                <li><a class="dropdown-item view_detail" href="javascript:void(0)" data-url="{% url 'view-details' employee.employee_code %}" >View Data</a></li>
+                                <li><a class="dropdown-item view_card" href="javascript:void(0)" data-url="{% url 'view-card' employee.pk %}" >View ID</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %} 
+                {% if not employees %}
+                <tr>
+                    <th colspan="6" class="text-center">No records.</th>
+                </tr>
+                {% endif %}
+                
+           
+        </table>
+
+
+
+    </div>
+</section>
+</div> {% endblock pageContent %} {% block ScriptBlock %}
+<script>
+    $(function() {
+        $('table').find('td, th').addClass('align-middle px-2 py-1')
+        $('.view_card').click(function(){
+            uni_modal("View Employee ID", $(this).attr('data-url'),'modal-lg')
+        })
+        $('.view_detail').click(function(){
+            uni_modal("View Employee Details", $(this).attr('data-url'),'modal-md')
+        })
+        $('#uni_modal').on('shown.bs.modal', function() {
+            if ($('#id-card').length > 0) {
+                var print_btn = $('<button id="print-card" class="btn btn-success btn-sm bg-gradient rounded-0 me-2" type="button"><i class="fa fa-print"></i> Print</button>')
+                $(this).find('.modal-sub-footer').prepend(print_btn)
+                print_btn.click(function() {
+                    var h = $("head").clone()
+                    var style = $($("noscript#qr-style").html()).clone()
+                    var card = $("#id-card").clone()
+                    var el = $('<div>')
+
+                    el.append(h)
+                    el.append(style)
+                    el.append(card)
+                    start_loader()
+                    var nw = window.open("", "_blank", "width=900, height=900")
+                    nw.document.write(el.html())
+                    nw.document.close()
+                    setTimeout(()=>{
+                        nw.print()
+                        setTimeout(()=>{
+                            nw.close()
+                            end_loader()
+                        }, 300)
+                    },300)
+
+                })
+
+                $('#uni_modal').on('hide.bs.modal', function() {
+                    print_btn.remove()
+                })
+            }
+
+        })
+    })
+
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+
+</script>
+{% endblock ScriptBlock %}
