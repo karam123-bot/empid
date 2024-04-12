@@ -3,7 +3,6 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.shortcuts import render
-import imp
 import importlib
 
 def home(request):
