@@ -2,9 +2,9 @@
 Django==4.0.3
 Pillow
 django-qr-code
-python=3.11
+python==3.11
 =======
---Django=4.0.3
+--Django==4.0.3
 Pillow
 django-qr-code
 Python >= 3.8
