@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 Django==4.0.3
 Pillow
 django-qr-code
 python=3.11
+=======
+--Django=4.0.3
+Pillow
+django-qr-code
+Python >= 3.8
+>>>>>>> 666e98866dd35232d1e877cf8a6ab1114c944db3
